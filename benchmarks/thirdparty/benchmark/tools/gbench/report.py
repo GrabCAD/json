@@ -61,9 +61,9 @@ def calculate_change(old_val, new_val):
     """
     Return a float representing the decimal change between old_val and new_val.
     """
-    if old_val == 0 and new_val == 0:
-        return 0.0
     if old_val == 0:
+        if new_val == 0:
+            return 0.0
         return float(new_val - old_val) / (float(old_val + new_val) / 2)
     return float(new_val - old_val) / abs(old_val)
 
@@ -73,8 +73,7 @@ def filter_benchmark(json_orig, family, replacement=""):
     Apply a filter to the json, and only leave the 'family' of benchmarks.
     """
     regex = re.compile(family)
-    filtered = {}
-    filtered['benchmarks'] = []
+    filtered = {'benchmarks': []}
     for be in json_orig['benchmarks']:
         if not regex.search(be['name']):
             continue
